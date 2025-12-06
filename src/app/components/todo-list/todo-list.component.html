@@ -1,0 +1,36 @@
+<app-add-todo (added)="onTodoAdded()"></app-add-todo>
+
+<div class="todo-grid">
+
+  @for (t of todos; track t.id) {
+    <div class="todo-card" [class.done]="t.is_done">
+
+      <!-- TOP: Checkbox + Text -->
+      <div class="todo-top">
+        <input type="checkbox" [checked]="t.is_done" (change)="toggleDone(t)" />
+
+        @if (!t.editing) {
+          <span class="todo-text">{{ t.title }}</span>
+        } @else {
+          <input [(ngModel)]="t.editText" class="edit-input" />
+        }
+      </div>
+
+      <!-- BOTTOM: Buttons -->
+      <div class="todo-bottom">
+        @if (!t.editing) {
+          <button class="icon-btn" (click)="enableEdit(t)">✏️</button>
+        }
+
+        @if (t.editing) {
+          <button class="btn save" (click)="saveEdit(t)">Save</button>
+          <button class="btn cancel" (click)="cancelEdit(t)">Cancel</button>
+        }
+
+        <button class="icon-btn delete" (click)="deleteTodo(t.id)">🗑️</button>
+      </div>
+
+    </div>
+  }
+
+</div>
